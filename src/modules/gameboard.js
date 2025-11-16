@@ -3,6 +3,7 @@ class GameBoard {
     #board
     #attacks = new Set()
     #ships = []
+    #shipPositions = new Set()
 
     constructor() {
         this.#board = Array.from({ length: this.#dimension[0] }, () => new Array(this.#dimension[1]).fill(null))
@@ -20,6 +21,20 @@ class GameBoard {
         return this.#ships
     }
 
+    get shipPositions() {
+        return this.#shipPositions
+    }
+
+    get hits() {
+        const hits = new Set([...this.#shipPositions].filter(key => this.#attacks.has(key)))
+        return hits
+    }
+
+    get misses() {
+        const hits = new Set([...this.#attacks].filter(key => !this.#shipPositions.has(key)))
+        return hits
+    }
+
 
     getShipAt(row, col) {
         return this.#board[row][col]
@@ -35,6 +50,8 @@ class GameBoard {
             const newCol = col + (i * direction[1])
             //Need to check that the position is on the board and unocupied
             this.#board[newRow][newCol] = ship
+            const key = `${newRow},${newCol}`
+            this.#shipPositions.add(key)
         }
         return true
     }

@@ -3,17 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Odin Project</title>
+    <title>Battleship</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
   </head>
   <body>
     <header>
-      <h1>My Odin Project</h1>
-      <nav>
-        <button id="home">Home</button>
-        <button id="menu">Menu</button>
-        <button id="about">About</button>
-      </nav>
+      <h1>Odin JS Battleship Game Project</h1>
     </header>
-    <div id="content"></div>
+    <div id="game-container">
+      <div id="gameboard-container">
+        <div id="your-grid">
+          <h2>Your Grid</h2>
+          <div class="player-grid"></div> <!-- This gets the grid styling -->
+        </div>
+        <div id="opponent-grid">
+          <h2>Opponent Grid</h2>
+          <div class="player-grid"></div> <!-- This gets the grid styling -->
+        </div>
+      </div>
+    </div>
   </body>
 </html>

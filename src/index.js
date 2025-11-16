@@ -1,24 +1,31 @@
 import "./style.css";
-import { createWelcomeMessage } from "./modules/greeting.js";
+import {  renderBoard, updateCell, displayShips, setupAttackHandler, updateBoardDisplay } from "./modules/ui.js";
+import { Game } from "./modules/game.js"
 
-console.log("Webpack is working!");
+const game = new Game()
+game.start()
 
-// Get the content div
-const content = document.getElementById("content");
+console.log('Player 1 ships:', game.players[0].board.ships.length, 'positions:', game.players[0].board.shipPositions.size)
+console.log('Player 2 ships:', game.players[1].board.ships.length, 'positions:', game.players[1].board.shipPositions.size)
 
-// Add welcome message
-content.appendChild(createWelcomeMessage());
+const yourGrid = document.querySelector('#your-grid .player-grid')
+const opponentGrid = document.querySelector('#opponent-grid .player-grid')
 
-// Add event listeners to navigation buttons
-document.getElementById("home").addEventListener("click", () => {
-  content.innerHTML = "";
-  content.appendChild(createWelcomeMessage());
-});
+renderBoard(yourGrid)
+renderBoard(opponentGrid)
 
-document.getElementById("menu").addEventListener("click", () => {
-  content.innerHTML = "<h2>Menu Page</h2><p>Add your menu content here.</p>";
-});
+// Display player's ships
+const playerBoard = game.players[0].board
+for (const position of playerBoard.shipPositions) {
+    const [row, col] = position.split(',').map(Number)
+    updateCell(yourGrid, row, col, 'ship')
+}
 
-document.getElementById("about").addEventListener("click", () => {
-  content.innerHTML = "<h2>About Page</h2><p>Add your about content here.</p>";
-});
+console.log('Opponent ships:', game.players[1].board.ships)
+console.log('Opponent ship positions:', game.players[1].board.shipPositions)
+
+
+setupAttackHandler(opponentGrid, game, game.players[1].board, yourGrid, playerBoard)
+
+
+

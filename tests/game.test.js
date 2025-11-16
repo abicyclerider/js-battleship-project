@@ -23,11 +23,24 @@ describe("Game in a battleship game", () => {
 
     })
 
-    test("Take turn switches the player", () => {
+    test("Take turn switches the player on a miss", () => {
         game.start()
         const initialPlayer = game.currentPlayer
+
+        jest.spyOn(game.nextPlayer.board, 'receiveAttack').mockReturnValue(false)
         game.takeTurn(0, 0)
         expect(game.currentPlayer).not.toBe(initialPlayer)
+    })
+
+    test("Take turn does NOT switch player on hit", () => {
+    game.start()
+    const initialPlayer = game.currentPlayer
+
+    // Mock receiveAttack to return true (hit)
+    jest.spyOn(game.nextPlayer.board, 'receiveAttack').mockReturnValue(true)
+
+    game.takeTurn(0, 0)
+    expect(game.currentPlayer).toBe(initialPlayer) // Same player!
     })
 
     test("Take turn attacks opponents board", () => {

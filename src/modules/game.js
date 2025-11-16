@@ -20,7 +20,9 @@ class Game {
     takeTurn(attackRow, attackCol) {
         const targetPlayer = this.nextPlayer
         const success = targetPlayer.board.receiveAttack(attackRow, attackCol)
-        this.#currentPlayerIndex = (this.#currentPlayerIndex + 1)%this.#players.length
+        if (!success) {
+            this.#currentPlayerIndex = (this.#currentPlayerIndex + 1)%this.#players.length
+        }
         return success
 
     }

@@ -110,3 +110,53 @@ describe("Initial game setup", () => {
 
     })
 })
+
+describe("GameBoard getters for ship positions, hits, and misses", () => {
+    let ship;
+    let board;
+
+    beforeEach(() => {
+        ship = new Ship(3);
+        board = new GameBoard();
+    });
+
+    test("shipPositions contains all ship cell positions after placing a ship", () => {
+        board.placeShip(ship, 2, 5, [0, 1]); // Horizontal ship at (2,5)
+        expect(board.shipPositions.has("2,5")).toBe(true);
+        expect(board.shipPositions.has("2,6")).toBe(true);
+        expect(board.shipPositions.has("2,7")).toBe(true);
+        expect(board.shipPositions.size).toBe(3);
+    });
+
+    test("hits contains positions where attacks hit ships", () => {
+        board.placeShip(ship, 0, 0, [1, 0]); // Vertical ship at (0,0)
+        board.receiveAttack(0, 0); // Hit
+        board.receiveAttack(1, 0); // Hit
+        expect(board.hits.has("0,0")).toBe(true);
+        expect(board.hits.has("1,0")).toBe(true);
+        expect(board.hits.size).toBe(2);
+    });
+
+    test("misses contains positions where attacks missed ships", () => {
+        board.receiveAttack(5, 5); // Miss
+        board.receiveAttack(6, 6); // Miss
+        expect(board.misses.has("5,5")).toBe(true);
+        expect(board.misses.has("6,6")).toBe(true);
+        expect(board.misses.size).toBe(2);
+    });
+
+    test("hits and misses are correctly separated", () => {
+        board.placeShip(ship, 3, 3, [0, 1]); // Horizontal ship
+        board.receiveAttack(3, 3); // Hit
+        board.receiveAttack(5, 5); // Miss
+        board.receiveAttack(3, 4); // Hit
+        board.receiveAttack(7, 7); // Miss
+
+        expect(board.hits.size).toBe(2);
+        expect(board.misses.size).toBe(2);
+        expect(board.hits.has("3,3")).toBe(true);
+        expect(board.hits.has("3,4")).toBe(true);
+        expect(board.misses.has("5,5")).toBe(true);
+        expect(board.misses.has("7,7")).toBe(true);
+    });
+});

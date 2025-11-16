@@ -4,16 +4,57 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
+.cell {
+  background-color: lightblue;
+  border: 1px solid #333;
+  /* You might also need a minimum size */
+  min-width: 30px;
+  min-height: 30px;
 }
 
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 1rem;
-  text-align: center;
+.cell.ship {
+  background-color: gray;
+}
+
+.cell.hit {
+  background-color: red;
+}
+
+.cell.hit::after {
+  content: "✕";
+  color: white;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.cell.miss {
+  background-color: white;
+}
+
+
+.cell.miss::after {
+  content: "•";
+  color: #333;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+
+.player-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 2px;
+  width: 400px;   /* Add this */
+  height: 400px;  /* Add this */
 }
 
 nav {
