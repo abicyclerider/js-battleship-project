@@ -53,6 +53,12 @@ function setupAttackHandler(opponentGrid, game, opponentBoard, yourGrid, playerB
         game.takeTurn(row, col)
         updateBoardDisplay(opponentGrid, opponentBoard)
 
+        // Check if player won
+        if (opponentBoard.allShipsSunk()) {
+            alert('You win! All enemy ships destroyed!')
+            return // Stop the game
+        }
+
         await executeComputerTurns(game, yourGrid, playerBoard)
     })
 }
@@ -63,6 +69,12 @@ async function executeComputerTurns(game, yourGrid, playerBoard) {
         const [row, col] = game.currentPlayer.generateMove(game.nextPlayer.board)
         game.takeTurn(row, col)
         updateBoardDisplay(yourGrid, playerBoard)
+
+        // Check if computer won
+        if (playerBoard.allShipsSunk()) {
+            alert('You lose! All your ships were destroyed!')
+            return // Stop the game
+        }
     }
 }
 
